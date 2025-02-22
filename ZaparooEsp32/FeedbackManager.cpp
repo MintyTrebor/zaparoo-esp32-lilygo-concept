@@ -375,16 +375,19 @@ int FeedbackManager::playAudio(const char* audioPath) {
 
 void FeedbackManager::cardInsertedActions(ZaparooToken* obj) {
     const char* pathToPlay = obj->getDetectAudio();
-    const char* imgToShow = obj->getLaunchJPEG();
+    
     if (!pathToPlay || strlen(pathToPlay) == 0) {
         pathToPlay = defaultInsertAudio.c_str();
     }
     if (pathToPlay && strlen(pathToPlay) > 0) {
         playAudio(pathToPlay);
     }
-    if (imgToShow || strlen(imgToShow) > 0) {
+    if(obj->isLaunchJPEGSet()){
+      const char* imgToShow = obj->getLaunchJPEG();
+      if (imgToShow || strlen(imgToShow) > 0) {
         Serial.println(imgToShow);
         dispJpgImg(imgToShow);
+      }
     }
     if (buzzOnDetect) {
         motorOn(0);
